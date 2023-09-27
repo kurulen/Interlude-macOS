@@ -13,6 +13,8 @@ open Interlude.UI
 module Terminal =
 
     let private lockObj = obj()
+    let mutable private lastMsg = "none"
+    let mutable private already = false
 
     let mutable exec_command = fun (c: string) -> ()
 
@@ -65,7 +67,15 @@ module Terminal =
             log.Clear()
             home()
 
-    let add_message(s: string) = Log.add s
+    let add_message(s: string) =
+        if (s.Equals(lastMsg)) then
+            if not (already) then
+                Log.add ("Last message is repeating...")
+                already <- true
+        else
+            lastMsg <- s
+            already <- false
+            Log.add s
 
     let private currentLine = Setting.simple ""
     let private sendKey = Bind.mk Keys.Enter

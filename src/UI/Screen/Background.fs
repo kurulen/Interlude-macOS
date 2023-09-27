@@ -55,7 +55,7 @@ module Background =
                             |> Seq.maxBy vibrance
                             |> fun c -> if vibrance c > 127 then Color.FromArgb(255, c) else Content.themeConfig().DefaultAccentColor
                     sync(fun () ->
-                        let sprite = Sprite.upload(bmp, 1, 1, true) |> Sprite.cache "loaded background"
+                        let sprite = Sprite.upload(bmp, 1, 1, true)
                         bmp.Dispose()
                         Content.accentColor <- col
                         background <- (sprite, Animation.Fade(0.0f, Target = 1.0f), false) :: background
